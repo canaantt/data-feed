@@ -59,10 +59,22 @@ func main() {
 		Callback: func(osPathname string, de *godirwalk.Dirent) error {
 			// fmt.Printf("%s %s\n", de.ModeType(), osPathname)
 			if de.ModeType()&os.ModeDir != 0 {
-				fmt.Printf(" %s is directory. => %s |  \n", de.ModeType()&os.ModeDir, osPathname)
+				// fmt.Printf(" %s is directory. => %s |  \n", de.ModeType()&os.ModeDir, osPathname)
 			} else {
-				match, _ := regexp.MatchString("p([a-z]+)ch", osPathname)
-				fmt.Println(match)
+				// match, _ := regexp.MatchString("p([a-z]+)ch", osPathname)
+				// fmt.Println(match)
+				r, _ := regexp.Compile("(clinical[w+\\_+]patient)")
+				if r.MatchString(osPathname) {
+					header, err := rsl(osPathname, 1)
+					if err == nil {
+						fmt.Println(osPathname)
+						fmt.Println(header)
+					} else {
+						fmt.Println(err)
+					}
+
+				}
+
 			}
 			return nil
 		},
